@@ -99,34 +99,6 @@
 
         $(document).ready(function () {
             alert("로딩이 완료되었습니다.");
-            function listing() {
-            $.ajax({
-                type: "GET",
-                url: "/shop",
-                data: {},
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        let sellists = response['sellist']
-                        for(let i = 0; i < sellists.length; i++){
-                            let title = sellists[i]['title'];
-                            let count = sellists[i]['count'];
-                            let address = sellists[i]['address'];
-                            let number = sellists[i]['number'];
-                            
-                            let temp_html = `<tr>
-                                                <td>${title}</td>
-                                                <td>${count}</td>
-                                                <td>${address}</td>
-                                                <td>${number}</td>
-                                            </tr>                     
-                                                    `
-                            $('#order_list').append(temp_html)
-                        }
-                    }
-                }
-            })
-        }
-
             $.ajax({
                 type: "GET",
                 url: "https://api.manana.kr/exchange/rate.json",
@@ -136,7 +108,37 @@
                     $('#meaning').text(rate)
                 }
             })
+
+            listing();
         })
+        
+        function listing() {
+        $.ajax({
+            type: "GET",
+            url: "/shop",
+            data: {},
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    let sellists = response['sellist']
+                    for(let i = 0; i < sellists.length; i++){
+                        let title = sellists[i]['title'];
+                        let count = sellists[i]['count'];
+                        let address = sellists[i]['address'];
+                        let number = sellists[i]['number'];
+                        
+                        let temp_html = `<tr>
+                                            <td>${title}</td>
+                                            <td>${count}</td>
+                                            <td>${address}</td>
+                                            <td>${number}</td>
+                                        </tr>                     
+                                                `
+                        $('#order_list').append(temp_html)
+                    }
+                }
+            }
+        })
+    }   
 
 
         function order() {
